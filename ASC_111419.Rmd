@@ -1,7 +1,8 @@
 ---
 title: "Disorder and Social Control"
-author: "Ross Matsueda<br>Chuck Lanfear<br>Lindsey Beach"
-date: 'Oct 26, 2018'
+subtitle: "Experimental Evidence on Prosocial and Antisocial Behavior"
+author: "Ross Matsueda<br>Charles Lanfear<br>Lindsey Beach"
+date: 'Nov 14, 2019'
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -16,6 +17,7 @@ output:
 options(htmltools.dir.version = FALSE)
 library(dplyr)
 library(ggplot2)
+library(extrafont)
 ```
 
 
@@ -29,12 +31,8 @@ library(ggplot2)
 
    * Lost Letter
    * Mailbox Experiment
-   * Littering Intervention
-   * Litter Clean-Up
    
-4. Synthesis
-
-5. Appendix
+4. Summary
 
 ---
 class: inverse
@@ -74,7 +72,7 @@ signalling low social control to offenders and (2) decreases actual social contr
 ]
 
 .centernote[
-*This model is under-identified without instruments or manipulations*
+*This model is under-identified without instruments, manipulations, or repeated observations.*
 ]
 
 ---
@@ -101,15 +99,17 @@ signalling low social control to offenders and (2) decreases actual social contr
 ---
 # Our Review
 
+Adjudicating between these models is difficult—[see our review for a discussion](https://doi.org/10.1146/annurev-criminol-011419-041541).
+
+.image-75[
 ![](https://clanfear.github.io/ASC_111419/img/annual_review.PNG)
+]
 
 ---
 class: inverse
-# Key Studies
+# Key Study
 
 ### [Keizer, Lindenberg, & Steg (2008)](https://doi.org/10.1126/science.1161405)
-
-### [Sampson & Raudenbush (1999)](https://doi.org/10.1086/210356)
 
 ---
 ## Keizer, Lindenberg, & Steg (2008)
@@ -127,87 +127,22 @@ Used disorder manipulations and recorded norm violation with field experiments i
 * Powerful causal effect of disorder on multiple forms of norm violation (A).
 
 * Single sites in one city: No examination of context, indirect pathways, or reciprocal effects.
-
-* High **internal validity** from experimental design.
 ]
 
 ---
-
-## Sampson & Raudenbush (1999)
-
-Simultaneous equations of crime, disorder, and collective efficacy in Chicago neighborhoods, using survey-measured collective efficacy and a novel objective measure of disorder: Video of block faces coded by researchers.
---
-
-.pull-left[
-![Sampson & Raudenbush (1999)](https://clanfear.github.io/ASC_111419/img/sampson.svg)
-
-.small[<sup>*</sup> Effect found only for robbery.]
-
-]
-
-
-.pull-right[
-* Effect of disorder on crime (A) absent once controlling for collective efficacy (B,D)
-
-* Control for crime impact on collective efficacy (E), but assume no disorder feedback on collective efficacy (C)
-
-* High **external validity** using focal concepts: *Real* disorder and crime.
-]
-
----
-# Research Questions
-
-Our goal is testing the micro-level mechanisms that underlie Broken Windows and Collective Efficacy.
-
---
-
-Does disorder increase norm-violations and crime as suggested by Broken Windows?
-* Does disorder also inhibit prosocial behavior?
-
---
-
-Or is this relationship spurious once collective efficacy is controlled, as suggested by Sampson?
-
-
---
-
-.centernote[
-*To answer these questions, this study links field experiments embedded in Seattle neighborhoods to ecometric data from the 2002-2003 Seattle Neighborhoods and Crime Survey.*
-]
-
----
-
 class: inverse
-
-# Project Structure
+# Research Design
 
 ---
+# Objectives
 
-# Experiments and Goals
+* Replicate Keizer et al. (2008) across Seattle neighborhoods
 
-1. **Lost Letter**
+* Examine links in causal diagram
 
-   * Obtain updated measure of collective efficacy.
+* Use 2003 survey for collective efficacy
 
---
-
-2. **Mailbox Experiment**
-
-   * Test causal effect of disorder on crime and norm-violation (A).
-
---
-
-3. Littering Intervention
-
-   * Test causal effect of disorder on sanctioning (B).
-   * Test causal effect of interpersonal context on sanctioning.
-   * Measure association of collective efficacy with sanctioning.
-
---
-
-4. Litter Clean-Up
-
-   * Measure assocation of collective efficacy with disorder removal (D).
+* Use lost letter method to update collective efficacy
 
 ---
 # Experiment Diagram
@@ -227,6 +162,7 @@ Sanctioning is difficult intervention
 ---
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, dev='svg', out.width='78%'}
+ttf_import("./fonts")
 exp_df <- expand.grid(year = 2014:2017,
                       experiment = c("Lost Letter", "Mailbox", "Litter\nIntervention", "Litter\nClean-Up")) %>%
   mutate(active = case_when(
@@ -257,9 +193,9 @@ exp_df <- expand.grid(year = 2014:2017,
 ggplot(exp_df, aes(x=year, y=experiment, fill=factor(active))) + 
   xlab("") + ylab("") + ggtitle("Experiment Timeline", subtitle= "Number of trials") + 
   geom_tile(color="white") + 
-    geom_text(size=8, color="#cbd3a3", hjust=0.5, aes(label=trials)) +
+    geom_text(size=8, color="#cbd3a3", hjust=0.5, aes(label=trials), family = "Quattrocento") +
   scale_fill_manual(values=c("2" = "#458490", "1" = "#342c5c", "0" = "white")) +
-  theme_minimal(base_size=21) + 
+  theme_minimal(base_size=21, base_family = "Quattrocento") + 
   theme(legend.position = "none", axis.text.x = element_text(angle=45, hjust=1),
         axis.text.y = element_text(hjust = 0.5),
         panel.grid = element_blank())
@@ -323,7 +259,7 @@ seattle_tracts <- st_as_sf(KC_tract_2010[as.numeric(str_sub(KC_tract_2010@data$G
 ggplot(seattle_tracts, aes(fill=Experiment)) + geom_sf(size=0.1, aes(color=Experiment)) + coord_sf(datum=NA) +
   scale_fill_manual(values = c("Mailbox, Litter Intervention"="#342c5c", "Mailbox"="#458490", "Litter Intervention"="#905145", "No Letters"="grey", "Only Letters"="#cbd3a3")) +
   scale_color_manual(values = c("Mailbox, Litter Intervention"="white", "Mailbox"="white", "Litter Intervention"="white", "No Letters"="white", "Only Letters"="white")) +
-  theme_minimal(base_size = 20)
+  theme_minimal(base_size = 20, base_family = "Quattrocento")
 # ggsave("./Presentations/SocSem_102618/img/experiment_map.svg")
 ```
 
@@ -379,14 +315,17 @@ Letters geocoded to drop locations.
 ]
 
 .pull-right[
-* Sampson found $A = .73$ over 7 years.
-* Assume $A = .50$ over 12 years.
+Sampson (2012) found $A = .73$ over 7 years.
 
-* We find $\rho(Z_1Y) = .35$
+Assume $A = .50$ over 12 years.
 
-* $\rho(Z_1Y) = A*B$
-* $.35 = .50 * B$
-* $B = .70$
+We find $\rho(Z_1Y) = .35$
+
+$\rho(Z_1Y) = A*B$
+
+$.35 = .50 * B$
+
+$B = .70$
 ]
 
 ---
@@ -421,22 +360,28 @@ Letters geocoded to drop locations.
 ---
 
 # Mailbox: Model
-.pull-left[
-![Mailbox Experiment](https://clanfear.github.io/SocSem_102618/img/mailbox_experiment_1.svg)
+
+Objective: Causal test of direct effect of disorder on crime (A).
+
+.image-63[
+![Mailbox Experiment](https://clanfear.github.io/ASC_111419/img/mailbox_experiment_1.svg)
 ]
 
-.pull-right[
-* Causal test of direct effect of disorder on crime (A).
 
 
-]
+
 
 ---
 
 # Mailbox: Model
-![Mailbox Experiment](https://clanfear.github.io/SocSem_102618/img/mailbox_diagram.svg)
 
-Test of causal direct effects of disorder on crime and prosocial behavior.
+Our Experiment: Tests of causal direct effects of disorder on crime and prosocial behavior.
+<br>
+
+.image-75[
+![Mailbox Experiment](https://clanfear.github.io/ASC_111419/img/mailbox_diagram.svg)
+]
+
 
 ---
 
@@ -452,46 +397,28 @@ Test of causal direct effects of disorder on crime and prosocial behavior.
     <th>Walk-By</th>
     <th>Mail</th>
     <th>Theft</th>
-    <th>Sum</th>
   </tr>
   <tr>
     <td rowspan="2">Control</td>
     <td>1629</td>
     <td>208</td>
     <td>33</td>
-    <td>1870</td>  
   </tr>
   <tr>
-    <td>.871</td>
-    <td><strong>.111</strong></td>
-    <td><strong>.018</strong></td>
-    <td>.509</td>
+    <td>87.1%</td>
+    <td><strong>11.1%</strong></td>
+    <td><strong>1.8%</strong></td>
   </tr>
   <tr>
     <td rowspan="2">Treatment</td>
     <td>1637</td>
     <td>136</td>
     <td>28</td>
-    <td>1801</td> 
   </tr>
   <tr>
-    <td>.909</td>
-    <td><strong>.076</strong></td>
-    <td><strong>.016</strong></td>
-    <td>.491</td>
-  </tr>
-  <tr>
-    <td rowspan="2">Both</td>
-    <td>3266</td>
-    <td>344</td>
-    <td>61</td>
-    <td>3671</td>
-  </tr>
-  <tr>
-    <td>.890</td>
-    <td>.094</td>
-    <td>.017</td>
-    <td>1.000</td>
+    <td>90.9%</td>
+    <td><strong>7.6%</strong></td>
+    <td><strong>1.6%</strong></td>
   </tr>
 </table>
 
@@ -508,101 +435,24 @@ Key Findings:
 
 * Collective efficacy is associated with lower theft, but not more mailing.
 
-
-
-
 ---
 class: inverse
-# Synthesis
+# Summary
 
----
 
-# Synthesis 1
+* No disorder effect on theft (unable to replicate Keizer et al. 2008).
 
-.pull-left[
-![](https://clanfear.github.io/SocSem_102618/img/prosocial_behavior.svg)
-]
+* Disorder attenuates mailing letters--low risk prosocial behavior (mailbox)
+   * Perhaps disorder undermines informal social control--as suggested by Broken Windows.
+   * *However, disorder had no effect on sanctioning--higher risk prosocial behavior (littering)*
 
-.pull-right[
-1\.  No disorder effect on theft (A).
-   * Unable to replicate Keizer et al. (2008)
-
-2\. Disorder attenuates low-risk, low-cost prosocial actions—mailing letters, throwing away litter—and possibly sanctioning as well (B).
-   * Consistent with indirect Broken Windows pathway.
+* Context matters for prosocial behavior
+   * Letter addresses affect mail back rates (lost letter)
+   * *Race / gender of litterer effects sanctioning (littering)*
    
-   * Suggests feedback effect on collective efficacy.
-]
+* Collective efficacy is associated with fewer thefts (mailbox)
 
----
-
-# Synthesis 2
-
-.pull-left[
-![](https://clanfear.github.io/SocSem_102618/img/prosocial_behavior.svg)
-]
-
-
-.pull-right[
-3\. Collective efficacy predicts some low-risk prosocial action (H,K) but not higher risk actions—sanctioning.
-* Sanctioning is thought to be a key mechanism.
-* May have insufficient power to detect effect.
-
-
-4\. Collective efficacy is associated with lower theft (C).
-* Unable to explore mechanism.
-* Possibly correlated with perceived *risk* of sanction or population composition.
-]
-
----
-
-# Synthesis 3
-
-.pull-left[
-![](https://clanfear.github.io/SocSem_102618/img/prosocial_behavior.svg)
-]
-
-
-.pull-right[
-5\. Context matters for prosocial behavior (I).
-   * Addresses of letters impact mailing.
-   * Target characteristics impact sanctioning.<sup>1</sup>
-   * Activation of collective efficacy is task and context specific.<sup>2</sup>
-
-.footnote[
-[1] Sanctioning on the basis of race hardly seems "prosocial". See Lanfear, Beach, & Thomas (2018) (forthcoming).
-
-[2] See [St. Jean (2007)](https://www.press.uchicago.edu/ucp/books/book/chicago/P/bo5298963.html) and [Wickes et al. (2013)](https://www.ncbi.nlm.nih.gov/pubmed/23812906).
-]
-]
----
-
-# Prosocial Behavior
-### Future research
-
-*We know relatively little about the activation of prosocial behavior, particularly sanctioning.*
-
---
-
-This study suggests contexts of prosocial behavior are important but neglected considerations for neighborhood theories of crime.
-
---
-
-   * Collective efficacy is correlated with the presence of risk factors—such as retaliation from the sanctioned.
-
---
-
-   * Disorder may be a signal for risks or other costs.
-
---
-
-   * Disorder may signal that interventions will have limited benefit.
-
---
-
-   * Context may cause general statements of prosocial intentions to differ sharply from actual behavior (see [St. Jean 2007](https://www.press.uchicago.edu/ucp/books/book/chicago/P/bo5298963.html)).
-
-
-
+* Collective efficacy is associated with mailing back letters (lost letter)
 
 ---
 
@@ -639,6 +489,16 @@ Center for Studies in Demography and Ecology
 ]
 
 ---
+class:inverse
+# Thank you!
+
+---
+count: false
+class:inverse
+# Appendices
+
+---
+count: false
 # Sampling
 
 .image-full[
@@ -646,12 +506,13 @@ Center for Studies in Demography and Ecology
 ]
 
 ---
-
+count: false
 # Lost Letter Elections
 
 ![](https://clanfear.github.io/SocSem_102618/img/letter_turnout.png)
 
 ---
+count: false
 # Mailbox Models
 
 
@@ -681,7 +542,7 @@ CE predicts people being in groups
 CE predicts fewer men; maybe proxying employment?
 
 ---
-
+count: false
 ## Littering Intervention: Method
 
 A confederate walks down the street and flagrantly litters near a trash can in view of passersby.
@@ -707,7 +568,7 @@ Replicated with three confederates of varying sex and race to manipulate interpe
 We conducted 576 trials in 12 Seattle census tracts.
 
 ---
-
+count: false
 # Littering Intervention: Model
 
 .pull-left[
@@ -719,6 +580,7 @@ We conducted 576 trials in 12 Seattle census tracts.
 ]
 
 ---
+count: false
 # Littering Intervention: Model
 
 .pull-left[
@@ -732,6 +594,7 @@ We conducted 576 trials in 12 Seattle census tracts.
 ]
 
 ---
+count: false
 # Littering Intervention: Model
 
 .pull-left[
@@ -747,6 +610,7 @@ We conducted 576 trials in 12 Seattle census tracts.
 ]
 
 ---
+count: false
 # Littering Intervention: Model
 
 .pull-left[
@@ -764,7 +628,7 @@ We conducted 576 trials in 12 Seattle census tracts.
 ]
 
 ---
-
+count: false
 # Results: Sanctions
 
 <table style="width:70%">
@@ -840,7 +704,7 @@ TP: 3 sanctions from women
 CL; 6/10 sanctions from men
 
 ---
-
+count: false
 # Results: Throwing Away
 
 
@@ -910,7 +774,7 @@ Key Findings:
 * Collective efficacy and letter returns do not predict throwing away.
 
 ---
-
+count: false
 # Litter Clean-Up: Method
 
 .pull-left[
@@ -925,7 +789,7 @@ Key Findings:
 ]
 
 ---
-
+count: false
 # Litter Clean-Up: Method
 
 .pull-left[
@@ -941,7 +805,7 @@ Key Findings:
 ]
 
 ---
-
+count: false
 # Litter Clean-Up: Method
 
 .pull-left[
@@ -960,7 +824,7 @@ Key Findings:
 ]
 
 ---
-
+count: false
 # Litter Clean-Up: Method
 
 .pull-left[
@@ -980,6 +844,7 @@ Key Findings:
 ]
 
 ---
+count: false
 # Litter Clean-Up: Results
 
 .pull-left[
@@ -991,6 +856,7 @@ Key Findings:
 * The experiment was abandoned after a small number of trials.
 
 ---
+count: false
 # Litter Clean-Up: Results
 
 .pull-left[
@@ -1020,6 +886,7 @@ Key Findings:
 Maybe talk about Coleman and zeal
 
 ---
+count: false
 # LitterCam Disorder
 
 .image-full[
@@ -1027,6 +894,7 @@ Maybe talk about Coleman and zeal
 ]
 
 ---
+count: false
 # LitterCam Equipment
 
 .image-full[
@@ -1034,6 +902,7 @@ Maybe talk about Coleman and zeal
 ]
 
 ---
+count: false
 # Litter Clean-Up: Alternative
 
 We supposed the speed of return of lost letters was correlated with clean-up time of trash.
