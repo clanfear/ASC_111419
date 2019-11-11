@@ -374,20 +374,19 @@ Letters geocoded to drop locations.
 ---
 # Updating Collective Efficacy
 
-.image-50[
+.pull-left[
 ![](https://clanfear.github.io/ASC_111419/img/lost_letter_path_tall.svg)
 ]
 
-.pull-left[
+.pull-right[
 * Sampson found $A = .73$ over 7 years.
 * Assume $A = .50$ over 12 years.
-* We find $\rho(Z_1Y) = .35$
-]
 
-.pull-right[
-$\rho(Z_1Y) = A*B$<br>
-$.35 = .50 * B$<br>
-$B = .70$
+* We find $\rho(Z_1Y) = .35$
+
+* $\rho(Z_1Y) = A*B$
+* $.35 = .50 * B$
+* $B = .70$
 ]
 
 ---
@@ -435,43 +434,9 @@ $B = .70$
 ---
 
 # Mailbox: Model
-.pull-left[
-![Mailbox Experiment](https://clanfear.github.io/SocSem_102618/img/mailbox_experiment_2.svg)
-]
+![Mailbox Experiment](https://clanfear.github.io/SocSem_102618/img/mailbox_diagram.svg)
 
-.pull-right[
-* Causal test of direct effect of disorder on crime (A).
-
-]
-
----
-
-# Mailbox: Model
-.pull-left[
-![Mailbox Experiment](https://clanfear.github.io/SocSem_102618/img/mailbox_experiment_2.svg)
-]
-
-.pull-right[
-* Causal test of direct effect of disorder on crime (A).
-
-* Causal test of direct effect of disorder on low-risk prosocial behavior (J).
-
-]
-
----
-
-# Mailbox: Model
-.pull-left[
-![Mailbox Experiment](https://clanfear.github.io/SocSem_102618/img/mailbox_experiment_2.svg)
-]
-
-.pull-right[
-* Causal test of direct effect of disorder on crime (A).
-
-* Causal test of direct effect of disorder on low-risk prosocial behavior (J).
-
-* Capture association between collective efficacy and minor crime (C) and low-risk prosocial behavior (K).
-]
+Test of causal direct effects of disorder on crime and prosocial behavior.
 
 ---
 
